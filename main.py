@@ -18,13 +18,15 @@ async def entrypoint(ctx: JobContext):
         ),
     )
     await ctx.connect(auto_subscribe=AutoSubscribe.AUDIO_ONLY)
+    fnc_ctx = AssistantFnc()
     
     assistant = VoiceAssistant(
         vad=silero.VAD.load(), # Voice Activity Detection
         stt=openai.STT(), # Speach To Text
         llm=openai.LLM(),
         tts=openai.TTS(),
-        chat_ctx=initial_ctx
+        chat_ctx=initial_ctx,
+        fnc_ctx=fnc_ctx,
     )
     assistant.start(ctx.room)
     
